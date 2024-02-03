@@ -1,0 +1,16 @@
+<div class="image">
+  <img [src]="src()" />
+</div>
+
+<div>
+  <h1>Will you be my Valentine?</h1>
+</div>
+
+<button (click)="yes()" class="correct" >
+  <span
+    [ngStyle]="{ 'height': yesSize(), 'font-size': yesSize(), 'line-height': yesLineHeight() }"
+  >
+    Yes
+  </span>
+</button>
+<button (click)="no()" class="incorrect">{{ noText() }}</button>

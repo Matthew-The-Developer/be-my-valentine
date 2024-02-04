@@ -23,7 +23,6 @@ const images = [
 ];
 
 const noTexts = [
-  'No',
   'Are you Sure?',
   'Really Sure?',
   'Think again!',
@@ -41,6 +40,7 @@ const noTexts = [
   'Wouldn\'t you reconsider?',
   'Don\'t be so cold hearted!',
   'Is that your final Answer?',
+  'Inconceivable!',
 ];
 
 @Component({
@@ -54,15 +54,16 @@ export class QuestionComponent implements OnInit {
   private router = inject(Router);  
 
   private readonly nos = signal(0);
-  readonly noText: Signal<string> = computed(() => noTexts[this.nos()]);
+  private readonly soonNos = signal<string[]>([]);
+  readonly noText = signal<string>('No');
+
   readonly yesSize: Signal<string> = computed(() => `${1 + this.nos()}rem`);
-  readonly yesLineHeight: Signal<string> = computed(() => `${1 + this.nos()}rem`);
   
   readonly src = signal(images[0]);
-  readonly seen = signal<string[]>([]);
+  private readonly seenImages = signal<string[]>([]);
 
   ngOnInit(): void {
-    this.shuffle();
+    this.shuffleImage();
   }
 
   yes(): void {
@@ -70,25 +71,38 @@ export class QuestionComponent implements OnInit {
   }
 
   no(): void {
-    if (this.nos() < noTexts.length - 1) {
-      this.nos.update(value => value + 1);
-    }
-
-    this.shuffle();
+    this.nos.update(value => value + 1);
+    this.shuffleText();
+    this.shuffleImage();
   }
 
-  private shuffle(): void {
-    if (this.seen().length === images.length) {
-      this.seen.set([]);
+  private shuffleText(): void {
+    if (this.soonNos().length === noTexts.length) {
+      this.soonNos.set([]);
+    }
+
+    let newNo = noTexts[Math.floor(Math.random() * noTexts.length)];
+
+    while(this.soonNos().includes(newNo)) {
+      newNo = noTexts[Math.floor(Math.random() * noTexts.length)];
+    }
+
+    this.noText.set(newNo);
+    this.soonNos.update(value => [ ...value, newNo ]);
+  }
+
+  private shuffleImage(): void {
+    if (this.seenImages().length === images.length) {
+      this.seenImages.set([]);
     }
     
     let newImage = images[Math.floor(Math.random() * images.length)];
 
-    while(this.seen().includes(newImage)) {
+    while(this.seenImages().includes(newImage)) {
       newImage = images[Math.floor(Math.random() * images.length)];
     }
 
     this.src.set(newImage);
-    this.seen.update(value => [ ...value, newImage ]);
+    this.seenImages.update(value => [ ...value, newImage ]);
   }
 }

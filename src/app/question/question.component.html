@@ -1,4 +1,4 @@
-<div class="image">
+<div (click)="shuffleImage()" class="image">
   <img [src]="src()" alt="Me Begging" />
 </div>
 
@@ -13,4 +13,7 @@
     Yes
   </span>
 </button>
+
 <button (click)="no()" class="incorrect">{{ noText() }}</button>
+
+<app-credits-dialog></app-credits-dialog>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Signal, signal } from '@angular/core';
+import { CreditsDialogComponent } from '../credits-dialog/credits-dialog.component';
 
 const images = [
   'assets/answer/yay-1.gif',
@@ -27,7 +28,7 @@ const images = [
 @Component({
   selector: 'app-answer',
   standalone: true,
-  imports: [],
+  imports: [CreditsDialogComponent],
   templateUrl: './answer.component.html',
   styleUrl: './answer.component.scss'
 })

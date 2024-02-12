@@ -1,0 +1,22 @@
+<button (click)="creditsDialog.showModal()" class="credits-open">Credits</button>
+
+<dialog #creditsDialog>
+  <div class="content">
+    <h2>Credits</h2>
+    <p>Idea - <a href="https://www.tiktok.com/@mewtru/video/7331103574623096107">Mewtru</a></p>
+    <p>GIFs Source - <a href="https://giphy.com/">Giphy</a></p>
+    
+    <div>
+      <span>GIFs Artists</span>
+      <ul>
+        <li><a href="https://giphy.com/linefriends">Line Friends</a></li>
+        <li><a href="https://giphy.com/hibreadtree/">Bread Tree</a></li>
+        <li><a href="https://giphy.com/corgiyolk/">Corgiyolk</a></li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <button (click)="creditsDialog.close()" autofocus>Close</button>
+    </div>
+  </div>
+</dialog>

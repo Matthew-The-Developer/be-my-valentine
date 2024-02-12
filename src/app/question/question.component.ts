@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Signal, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, Signal, ViewChild, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { CreditsDialogComponent } from '../credits-dialog/credits-dialog.component';
 
 const images = [
   'assets/question/valentines-16.gif',
@@ -46,7 +47,7 @@ const noTexts = [
 @Component({
   selector: 'app-question',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CreditsDialogComponent],
   templateUrl: './question.component.html',
   styleUrl: './question.component.scss'
 })
@@ -76,6 +77,21 @@ export class QuestionComponent implements OnInit {
     this.shuffleImage();
   }
 
+  shuffleImage(): void {
+    if (this.seenImages().length === images.length) {
+      this.seenImages.set([]);
+    }
+    
+    let newImage = images[Math.floor(Math.random() * images.length)];
+
+    while(this.seenImages().includes(newImage)) {
+      newImage = images[Math.floor(Math.random() * images.length)];
+    }
+
+    this.src.set(newImage);
+    this.seenImages.update(value => [ ...value, newImage ]);
+  }
+
   private shuffleText(): void {
     if (this.soonNos().length === noTexts.length) {
       this.soonNos.set([]);
@@ -89,20 +105,5 @@ export class QuestionComponent implements OnInit {
 
     this.noText.set(newNo);
     this.soonNos.update(value => [ ...value, newNo ]);
-  }
-
-  private shuffleImage(): void {
-    if (this.seenImages().length === images.length) {
-      this.seenImages.set([]);
-    }
-    
-    let newImage = images[Math.floor(Math.random() * images.length)];
-
-    while(this.seenImages().includes(newImage)) {
-      newImage = images[Math.floor(Math.random() * images.length)];
-    }
-
-    this.src.set(newImage);
-    this.seenImages.update(value => [ ...value, newImage ]);
   }
 }
